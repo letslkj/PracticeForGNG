@@ -1,0 +1,110 @@
+<!doctype html>
+<html 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+	<script src="/js/script.js"></script>
+</head>
+<body>
+	<form id="frm">
+		<input type="hidden" name="bookId" value="" />
+		<div class="listBox">
+			<!--  -->
+			<div class="loginInformArea">
+				<span th:text="${session.loginid}+'様がログイン中です。'" ></span>
+				<span>
+					<input type="submit" id="logout_btn" value="サインアウト" formaction="/logout"/>
+				</span>
+			</div>
+			
+			<!--  -->
+			<h1 class="tableTitle">本一覧</h1>
+			<table id="bookTable">
+				<colgroup>
+					<col width="20%">
+					<col width="21%">
+					<col width="21%">
+					<col width="17%">
+					<col width="14%">
+					<col width="7%">
+				</colgroup>
+				<tr class="columnTitle">
+					<th>タイトル</th>
+					<th>著者</th>
+					<th>出版社</th>
+					<th>発売日</th>
+					<th class="priceColumn">値段</th>
+					<th> </th>
+				</tr>
+
+				<tr class="bookRow" th:if="${not #lists.isEmpty(bookList)}" th:each="book : ${bookList}">
+					<td th:if="${#strings.length(book.getTitle())<11}"><a th:text="${book.getTitle()}" th:href="'javascript:goUpdatePage(\'' + ${book.getId()} + '\');'"></a></td>      
+					<td th:unless="${#strings.length(book.getTitle())<11}"><a th:text="|${#strings.substring(book.getTitle(),0,10)}...|" th:href="'javascript:goUpdatePage(\'' + ${book.getId()} + '\');'"></a></td>      
+					<td th:if="${#strings.length(book.getAuthor())<11}" th:text="${book.getAuthor()}" />      
+					<td th:unless="${#strings.length(book.getAuthor())<11}" th:text="|${#strings.substring(book.getAuthor(),0,10)}...|" />      
+					<td th:if="${book.getPublisher() == null}" th:text="''" />      
+					<td th:if="${book.getPublisher() != null and #strings.length(book.getPublisher())<=10}" th:text="${book.getPublisher()}" />      
+					<td th:if="${book.getPublisher() != null and #strings.length(book.getPublisher())>10}" th:text="|${#strings.substring(book.getPublisher(),0,10)}...|" />      
+				    <td th:if="${book.getPublicationDate() == null}" th:text="''" />
+				    <td th:unless="${book.getPublicationDate() == null}" th:text="${#calendars.format(book.getPublicationDate(), 'yyyy年M月d日')}" />
+				    <td class="priceColumn" th:text="|${#numbers.formatInteger(book.getPrice(), 0, 'COMMA')}円 |"></td>
+				    <td><input class="delBtn" type="button" value="削除" th:onclick="'javascript:deleteBook(\'' + ${book.getId()} + '\');'" /></td>
+				</tr>                             <!-- ${#numbers.formatInteger(book.getPrice(), 0, 'COMMA')} -->
+				
+				<tr class="emptyRow" th:if="${#lists.isEmpty(bookList)}">
+					<td colspan="5">登録された本がありません</td>
+				</tr>
+				
+			</table>
+			
+			<!-- paging area -->
+			<div class="pagingArea">
+				<!-- paging button -->
+				<nav aria-label="Page navigation example ">
+				  <ul class="pagination">
+				  <li class="page-item">
+				      <a class="page-link" th:href="@{bookList(page=1)}" aria-label="Previous">
+				        <span aria-hidden="true">初め</span>
+				      </a>
+				    </li>
+				    <li class="page-item">
+				      <a class="page-link" th:href="@{bookList((page = ${pagination.prevBlock}))}" aria-label="Previous">
+				        <span aria-hidden="true">前へ</span>
+				      </a>
+				    </li>
+				    <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+					    <li class="page-item" 
+					    		 th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+					    		th:each="pageButton : ${#numbers.sequence(start, end)}">
+					    		<a class="page-link" th:href="@{bookList(page = ${pageButton})}" th:text=${pageButton}></a>
+					    </li>
+				    </th:block>
+				    <li class="page-item">
+				      <a class="page-link" th:href="@{bookList((page = ${pagination.nextBlock}))}" aria-label="Next">
+				        <span aria-hidden="true">次へ</span>
+				      </a>
+				    </li>
+				    <li class="page-item">
+				      <a class="page-link" th:href="@{bookList((page = ${pagination.totalPageCnt}))}" aria-label="Previous">
+				        <span aria-hidden="true">最後</span>
+				      </a>
+				    </li>
+				  </ul>
+				</nav>
+			</div>
+			
+			<!-- ボタン区域 -->
+			<div class="buttonArea">
+				<div>
+					<input type="button" id="reg_btn" value="登録" onclick="location.href='/registrationForm'" />
+				</div>			
+			</div>	
+			
+		</div>
+	</form>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+	<script src="/js/script.js"></script>
+</head>
+<body>
+	<form id="frm">
+		<input th:if="${not #strings.isEmpty(update)}" type="hidden" name="bookId" th:value="${bookDTO.getId()}" />
+		<div class="regBox">
+			<!--  -->
+			<div class="loginInformArea">
+				<span th:text="${session.loginid}+'様がログイン中です。'" ></span>
+				<span>
+					<input type="submit" id="logout_btn" value="サインアウト" formaction="/logout"/>
+				</span>
+			</div>
+			
+			<!--  -->
+			<h1 class="tableTitle">本の登録</h1>
+			<hr>
+			
+			<!-- 情報入力区域 -->
+			<div class="regContainer">
+				<div class="regItem">
+					<span class="labelSpace"><label for="itemName"><span class="required">*</span>タイトル</label></span>
+					<input th:if="${not #strings.isEmpty(reg)}" type="text" id="itemName" name="itemName" placeholder="最大100文字まで" maxlength="100" />
+					<input th:if="${not #strings.isEmpty(update)}" type="text" id="itemName" name="itemName" placeholder="最大100文字まで" maxlength="100" th:value="${bookDTO.getTitle()}" />
+				</div>
+				<div class="regItem">
+					<span class="labelSpace"><label for="itemAuthor"><span class="required">*</span>著者</label></span>
+					<input th:if="${not #strings.isEmpty(reg)}" type="text" id="itemAuthor" name="itemAuthor" placeholder="最大50文字まで" maxlength="50" />
+					<input th:if="${not #strings.isEmpty(update)}" type="text" id="itemAuthor" name="itemAuthor" placeholder="最大50文字まで" maxlength="50" th:value="${bookDTO.getAuthor()}"/>
+				</div>
+				<div class="regItem">
+					<span class="labelSpace"><label for="itemPublisher">出版社</label></span>
+					<input th:if="${not #strings.isEmpty(reg)}" type="text" id="itemPublisher" name="itemPublisher" placeholder="最大50文字まで" maxlength="50" />
+					<input th:if="${not #strings.isEmpty(update)}" type="text" id="itemPublisher" name="itemPublisher" placeholder="最大50文字まで" maxlength="50" th:value="${bookDTO.getPublisher()}" />
+				</div>
+				<div class="regItem">
+					<span class="labelSpace"><label for="itemPublicationDate">発売日</label></span>
+					<input th:if="${not #strings.isEmpty(reg)}" type="text" id="itemPublicationDate" name="itemPublicationDate" placeholder="YYYY/M/D" maxlength="10" />
+					<input th:if="${not #strings.isEmpty(update)}" type="text" id="itemPublicationDate" name="itemPublicationDate" placeholder="YYYY/M/D" maxlength="10" th:value="${#calendars.format(bookDTO.getPublicationDate(), 'yyyy/M/d')}" />
+				</div>
+				<div class="regItem">
+					<span class="labelSpace"><label for="itemPrice"><span class="required">*</span>価額</label></span>
+					<input th:if="${not #strings.isEmpty(reg)}" type="text" id="itemPrice" name="itemPrice" placeholder="数字のみ入力" maxlength="10" />
+					<input th:if="${not #strings.isEmpty(update)}" type="text" id="itemPrice" name="itemPrice" placeholder="数字のみ入力" maxlength="10" th:value="${bookDTO.getPrice()}"/>
+				</div>
+			</div>
+			
+			<!-- ボタン区域 -->
+			<div class="buttonArea">
+				<input th:if="${not #strings.isEmpty(reg)}" type="button" id="reg_btn" value="登録" onclick="saveBook()" />
+				<input th:if="${not #strings.isEmpty(update)}" type="button" id="reg_btn" value="変更" onclick="updateBook()" />
+				<input type="button" id="back_btn" value="戻る" onclick="location.href='/bookList'" />	
+			</div>
+		
+		</div>
+	</form>
+</body>
+</html>

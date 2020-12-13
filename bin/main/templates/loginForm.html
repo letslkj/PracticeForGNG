@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+	<script src="/js/script.js"></script>
+</head>
+<body>
+	<form id="frm">
+		<div class="loginBox">
+			<h1>ログイン</h1>
+			
+			<!-- ログイン情報入力区域 -->
+			<div class="inputArea">
+				<div class="inputItem">
+					<label for="loginid">アカウント</label>
+					<input type="text" id="loginid" name="loginid" maxlength="20" />
+				</div>
+				<div class="inputItem">
+					<label for="loginpw">パスワード</label>
+					<input type="password" id="loginpw" name="loginpw" maxlength="32" />		
+				</div>
+			</div>
+			
+			<!-- エラーメッセージ表示区域 -->
+			<div id="errMsg" th:text="${errMsg}"></div>
+			
+			<!-- ボタン区域 -->						
+			<div class="buttonArea">
+				<input type="button" id="login_btn" value="サインイン" onclick="checkLogin()" />
+			</div>
+		
+			<a href="">パスワードをお忘れの方はこちらへ</a>
+			
+		</div>
+	</form>
+</body>
+</html>

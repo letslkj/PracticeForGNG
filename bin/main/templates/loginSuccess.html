@@ -1,0 +1,33 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+	<script src="/js/script.js"></script>
+</head>
+<body>
+	<form>
+		<div class="loginBox">
+			<h1>ログイン成功</h1>
+			
+			<!--アカウント名表示 -->
+			<div class="inputArea">
+				<div class="inputItem">
+					<p th:text="${loginid}+'様がログイン中です。'" ></p>
+				</div>
+				<div class="inputItem">
+					この画面はまだ準備中です。		
+				</div>
+			</div>
+			
+			<!-- ボタン区域 -->
+			<div>
+				<input type="submit" id="login_btn" value="サインアウト" formaction="/logout"/>
+			</div>
+			
+			<a href="">パスワードをお忘れの方はこちらへ</a>
+		</div>
+	</form>
+</body>
+</html>

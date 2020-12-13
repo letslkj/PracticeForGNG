@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.example.demo.dao.BookMapper">
+    <insert id="insertBook" parameterType="bookDto">
+        INSERT INTO BOOKS_INFO (title, author, publisher, publicationDate, price) VALUES (#{title}, #{author}, #{publisher, jdbcType = VARCHAR}, #{publicationDate, jdbcType = DATE}, #{price})
+    </insert>
+    <select id="getBookList" resultType="bookDto">
+        SELECT * FROM BOOKS_INFO ORDER BY title
+    </select>
+    <select id="getBookListWithPaging" resultType="bookDto">
+		SELECT R1.* FROM(
+			SELECT * FROM BOOKS_INFO ORDER BY title
+		) R1
+		LIMIT #{pageSize, jdbcType=INTEGER} OFFSET #{startIndex, jdbcType=INTEGER}
+	</select>
+    <select id="getBookInfo" resultType="bookDto">
+        SELECT * FROM BOOKS_INFO WHERE id = #{id}
+    </select>
+    <delete id="deleteBook">
+    	DELETE FROM BOOKS_INFO WHERE id = #{id} 
+    </delete>
+    <update id="updateBook" parameterType="bookDto">
+        UPDATE BOOKS_INFO SET title=#{title}, author=#{author}, publisher=#{publisher, jdbcType = VARCHAR}, publicationDate=#{publicationDate, jdbcType = DATE}, price=#{price} WHERE id=#{id}
+    </update>
+    <select id="getAllCnt" resultType="int">
+        SELECT COUNT(*) FROM BOOKS_INFO
+    </select>
+
+</mapper>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+	<script src="/js/script.js"></script>
+</head>
+<body>
+	<form id="frm" method="POST">
+		<input type="hidden" name="bookId" th:value="${bookId}">
+		<div class="resultBox">
+			<!-- エラーメッセージ表示区域 -->
+			<div class="registFail" th:text="${resultMsg1}"></div>
+			<div class="registFail" th:text="${resultMsg2}"></div>
+			<div class="registSuccess" th:text="${resultMsg3}"></div>
+			
+			<!-- ボタン区域 -->						
+			<div class="buttonArea">
+				<input th:if="${not #strings.isEmpty(resultMsg3)}" type="button" id="back_btn" value="一覧へ" onclick="location.href='/bookList'" />
+			    <input th:if="${not #strings.isEmpty(bookId)}" type="button" id="back_btn" value="戻る" th:onclick="goUpdatePage( [[${bookId}]] )" />
+			</div>																							
+																																														
+		</div>
+	</form>
+</body>
+</html>
